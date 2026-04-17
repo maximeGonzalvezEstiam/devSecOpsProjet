@@ -2,7 +2,8 @@ name: CI DevSecOps Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -22,13 +23,10 @@ jobs:
           dockerfile: Dockerfile
 
       - name: Build Docker image
-        run: |
-          docker build -t node-api:latest .
+        run: docker build -t node-api:latest .
 
       - name: Install yamllint
-        run: |
-          pip install yamllint
+        run: pip install yamllint
 
-      - name: Lint Kubernetes YAML
-        run: |
-          yamllint .
+      - name: Lint YAML files
+        run: yamllint .

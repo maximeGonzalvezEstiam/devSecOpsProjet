@@ -1,10 +1,11 @@
 package kubernetes.security
 
-deny[msg] {
+deny contains msg if {
   input.kind == "Deployment"
+
   container := input.spec.template.spec.containers[_]
 
-  not container.securityContext.runAsNonRoot == true
+  container.securityContext.runAsNonRoot != true
 
-  msg := sprintf("Container %v must run as non-root", [container.name])
+  msg := sprintf("Container %s must run as non-root", [container.name])
 }

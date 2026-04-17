@@ -30,3 +30,25 @@ jobs:
 
       - name: Lint YAML files
         run: yamllint .
+
+  scan-trivy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t node-api:latest .
+
+      - name: Trivy - Scan dependencies
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+
+      - name: Trivy - Scan image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: node-api:latest
+          severity: CRITICAL,HIGH

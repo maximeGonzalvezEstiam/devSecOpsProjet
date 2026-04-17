@@ -68,4 +68,4 @@ jobs:
 
     - name: Run Conftest (Kubernetes security policy)
       run: |
-        conftest test . -p policy/
+        conftest test . -p policy/ --ignore=node_modules
